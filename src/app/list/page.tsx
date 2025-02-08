@@ -36,7 +36,7 @@ export default function List() {
         <CardContent>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
+              <TableHead sx={{ backgroundColor: 'gray' }}>
                 <TableRow>
                   <TableCell>Dessert (100g serving)</TableCell>
                   <TableCell align="right">Calories</TableCell>

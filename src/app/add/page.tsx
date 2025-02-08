@@ -7,38 +7,15 @@ import {
   CardContent,
   CardHeader,
   Container,
-  InputAdornment,
-  MenuItem,
-  TextField,
+  Typography,
 } from '@mui/material'
-
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
-const formSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  number_invoice: z.string().min(1, 'Invoice number is required'),
-  date: z.string().min(1, 'Date is required'),
-  amount: z.number().min(1, 'Amount is required'),
-  status: z.string().min(1, 'Status is required'),
-})
+import { grey } from '@mui/material/colors'
+import FormRender from '../../../components/FormRender'
+import { FORM_INVOICE } from '../../../constants'
+import { useValueForm } from '../../../hooks/useValueForm'
 
 export default function Add() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: '',
-      number_invoice: '',
-      date: null,
-      amount: '',
-      status: '',
-    },
-  })
+  const { handleSubmit, control, errors } = useValueForm({})
 
   const onSubmit = (data: object) => {
     console.log('Form Data:', data)
@@ -48,8 +25,8 @@ export default function Add() {
     <Container component="form" onSubmit={handleSubmit(onSubmit)}>
       <Card>
         <CardHeader
-          title="Invoice Form"
-          sx={{ borderBottom: '1px solid black' }}
+          title={<Typography fontWeight="bold">Invoice Form</Typography>}
+          sx={{ borderBottom: `1px solid ${grey[200]}` }}
         />
         <CardContent
           sx={{
@@ -61,66 +38,17 @@ export default function Add() {
             backgroundColor: 'white',
           }}
         >
-          <TextField
-            label="Name"
-            {...register('name')}
-            error={!!errors.name}
-            helperText={errors.name?.message}
-            fullWidth
-            size="small"
-            variant="filled"
-          />
-          <TextField
-            label="Number"
-            {...register('number_invoice')}
-            error={!!errors.number_invoice}
-            helperText={errors.number_invoice?.message}
-            fullWidth
-            size="small"
-            variant="filled"
-          />
-          <TextField
-            label="Due Date"
-            {...register('date')}
-            type="date"
-            error={!!errors.date}
-            helperText={errors.date?.message}
-            fullWidth
-            size="small"
-            variant="filled"
-          />
-          <TextField
-            label="Amount"
-            {...register('amount', { valueAsNumber: true })}
-            type="number"
-            error={!!errors.amount}
-            helperText={errors.amount?.message}
-            fullWidth
-            size="small"
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">Rp</InputAdornment>
-                ),
-              },
-            }}
-            variant="filled"
-          />
-          <TextField
-            select
-            label="Status"
-            {...register('status')}
-            error={!!errors.status}
-            helperText={errors.status?.message}
-            type=""
-            fullWidth
-            size="small"
-            variant="filled"
-          >
-            <MenuItem value="paid">Paid</MenuItem>
-            <MenuItem value="Unpaid">Unpaid</MenuItem>
-            <MenuItem value="Pending">Pending</MenuItem>
-          </TextField>
+          {FORM_INVOICE.map((item) => (
+            <FormRender
+              key={item.key}
+              name={item.key}
+              type={item.type}
+              label={item.label}
+              options={item.options}
+              errors={errors}
+              control={control}
+            />
+          ))}
         </CardContent>
         <CardActions sx={{ p: 3 }}>
           <Button type="submit" variant="contained" color="primary">
