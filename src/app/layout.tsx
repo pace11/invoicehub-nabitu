@@ -79,9 +79,7 @@ export default function RootLayout({
                 >
                   <Avatar>H</Avatar>
                 </Box>
-                <Box component="div" sx={{ padding: 10 }}>
-                  {children}
-                </Box>
+                <Box>{children}</Box>
               </Box>
             </Box>
           </ThemeProvider>
