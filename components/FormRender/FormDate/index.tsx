@@ -15,25 +15,17 @@ export default function FormDate({ name, label, control }: TypeFormInput) {
             label={label}
             value={field.value ? dayjs(field.value) : null}
             onChange={(newValue: Dayjs | null) => {
-              field.onChange(newValue ? newValue.toDate() : null) // Convert dayjs to Date
+              field.onChange(newValue ? newValue.toDate() : null)
             }}
             slotProps={{
               textField: {
                 error: fieldState.invalid,
                 helperText: fieldState.error?.message,
                 variant: 'filled',
+                size: 'small',
               },
             }}
           />
-          // <TextField
-          //   {...field}
-          //   type={type}
-          //   size="small"
-          //   label={label}
-          //   variant="filled"
-          //   error={fieldState.invalid}
-          //   helperText={fieldState?.error?.message}
-          // />
         )}
       />
     </LocalizationProvider>
