@@ -1,13 +1,8 @@
 import { TypeFormInput } from '@/lib/types'
-import { TextField } from '@mui/material'
+import { InputAdornment, TextField } from '@mui/material'
 import { Controller } from 'react-hook-form'
 
-export default function FormInput({
-  name,
-  label,
-  control,
-  type,
-}: TypeFormInput) {
+export default function FormCurrency({ name, label, control }: TypeFormInput) {
   return (
     <Controller
       name={name}
@@ -16,12 +11,21 @@ export default function FormInput({
         <>
           <TextField
             {...field}
-            type={type}
+            type="number"
             size="small"
             label={label}
             variant="filled"
             error={fieldState.invalid}
             helperText={fieldState?.error?.message}
+            onChange={(e) => field.onChange(e.target.value)}
+            value={Number(field.value)}
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">Rp</InputAdornment>
+                ),
+              },
+            }}
           />
         </>
       )}

@@ -1,5 +1,6 @@
 'use client'
 
+import { useQueriesMutation } from '@/hooks/useQueriesMutation'
 import {
   Button,
   Card,
@@ -15,10 +16,16 @@ import { FORM_INVOICE } from '../../../constants'
 import { useValueForm } from '../../../hooks/useValueForm'
 
 export default function Add() {
-  const { handleSubmit, control, errors } = useValueForm({})
+  const { handleSubmit, control, errors } = useValueForm()
+  const { mutate } = useQueriesMutation({ endpoint: '/invoices' })
 
-  const onSubmit = (data: object) => {
-    console.log('Form Data:', data)
+  const onSubmit = async (data: object) => {
+    const payload = {
+      ...data,
+      due_date: new Date(data.due_date).toISOString(),
+    }
+
+    await mutate({ body: payload })
   }
 
   return (

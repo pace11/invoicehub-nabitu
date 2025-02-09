@@ -3,19 +3,16 @@ import { invoiceFields } from '@/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-export const useValueForm = ({
-  values = null,
-}: {
-  values?: InvoiceFormValues | null
-}) => {
+export const useValueForm = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<InvoiceFormValues>({
     resolver: zodResolver(createInvoiceSchema),
-    defaultValues: values || invoiceFields,
+    defaultValues: invoiceFields,
   })
 
-  return { control, handleSubmit, errors }
+  return { control, handleSubmit, errors, reset }
 }

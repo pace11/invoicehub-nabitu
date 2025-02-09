@@ -1,18 +1,17 @@
 import { createInvoiceSchema } from '../lib/schemas'
 
-/**
- * convert invoiceSchema.shape from object{} => string[]
- */
 export const invoiceKey = Object.keys(createInvoiceSchema.shape)
 
 type InvoiceFields = {
-  [key in (typeof invoiceKey)[number]]: string | number | null
+  [key in (typeof invoiceKey)[number]]: string | number
 }
 
-/**
- * creating defaultValues from invoiceSchema
- */
 export const invoiceFields: InvoiceFields = invoiceKey.reduce((key, field) => {
-  key[field] = field === 'date' ? null : field === 'amount' ? 0 : ''
+  key[field] = createInvoiceSchema.shape[field]._def.defaultValue()
   return key
 }, {} as InvoiceFields)
+
+export const formatCurrency = (value: string | number) =>
+  new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(
+    Number(value),
+  )

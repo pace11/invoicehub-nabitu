@@ -1,4 +1,5 @@
 import { Control, FieldErrors } from 'react-hook-form'
+import { InvoiceFormValues } from '../schemas'
 
 export type Invoice = {
   name: string
@@ -29,10 +30,10 @@ export type TypeFormSelect = {
 }
 
 export type TypeFormRender = {
-  control: Control
+  control: Control<InvoiceFormValues>
   name: string
   label?: string
-  type?: string
+  type: string
   errors: FieldErrors
-  options: TypeSelectOptions[]
+  options?: TypeSelectOptions[]
 }

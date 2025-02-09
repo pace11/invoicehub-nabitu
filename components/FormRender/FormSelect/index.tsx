@@ -28,7 +28,7 @@ export default function FormSelect({
                 <MenuItem key={index} value={item.value}>
                   {item.label}
                 </MenuItem>
-              ))}
+              )) || []}
             </Select>
             {fieldState.error && (
               <FormHelperText>{fieldState.error.message}</FormHelperText>
