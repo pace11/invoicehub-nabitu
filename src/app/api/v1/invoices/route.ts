@@ -31,12 +31,19 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const body = await req.json()
-  const client = await clientPromise
-  const db = client.db(`${process.env.MONGODB_NAME}`)
-  const response = await db
-    .collection(`${process.env.MONGODB_COLLECTION}`)
-    .insertOne(body)
+  try {
+    const body = await req.json()
+    const client = await clientPromise
+    const db = client.db(`${process.env.MONGODB_NAME}`)
+    const response = await db
+      .collection(`${process.env.MONGODB_COLLECTION}`)
+      .insertOne(body)
 
-  return NextResponse.json(response)
+    return NextResponse.json(response)
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, message: 'Operation unsuccessful' },
+      { status: 500 },
+    )
+  }
 }

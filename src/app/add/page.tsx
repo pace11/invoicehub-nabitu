@@ -12,6 +12,7 @@ import {
   CardContent,
   CardHeader,
   Container,
+  Grow,
   Typography,
 } from '@mui/material'
 import { grey } from '@mui/material/colors'
@@ -83,12 +84,12 @@ export default function Add() {
           </Button>
         </CardActions>
       </Card>
-      {successMutation && (
+      <Grow in={successMutation} style={{ transformOrigin: '0 0 0' }}>
         <Alert severity="success">
           <AlertTitle>Success</AlertTitle>
           This is a success Alert with an encouraging title.
         </Alert>
-      )}
+      </Grow>
     </Container>
   )
 }
