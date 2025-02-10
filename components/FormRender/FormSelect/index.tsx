@@ -1,4 +1,4 @@
-import { TypeFormSelect } from '@/lib/types'
+import { TypeFormRender } from '@/lib/types'
 import {
   FormControl,
   FormHelperText,
@@ -14,9 +14,9 @@ export default function FormSelect({
   control,
   options,
   errors,
-}: TypeFormSelect) {
+}: TypeFormRender) {
   return (
-    <FormControl fullWidth error={!!errors[name]}>
+    <FormControl fullWidth error={!!errors?.[name]}>
       <InputLabel>{label}</InputLabel>
       <Controller
         name={name}

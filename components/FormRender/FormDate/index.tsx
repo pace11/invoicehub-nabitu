@@ -1,10 +1,10 @@
-import { TypeFormInput } from '@/lib/types'
+import { TypeFormRender } from '@/lib/types'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs, { Dayjs } from 'dayjs'
 import { Controller } from 'react-hook-form'
 
-export default function FormDate({ name, label, control }: TypeFormInput) {
+export default function FormDate({ name, label, control }: TypeFormRender) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Controller

@@ -1,19 +1,16 @@
 import { Control, FieldErrors } from 'react-hook-form'
-import { InvoiceFormValues } from '../schemas'
+import { z } from 'zod'
+import { createInvoiceSchema } from '../schemas'
 
-export type Invoice = {
+export type TypeInvoice = z.infer<typeof createInvoiceSchema>
+
+export type TypeListInvoices = {
+  _id: string
   name: string
   invoice: string
   due_date: string
-  amount: string
+  amount: number
   status: string
-}
-
-export type TypeFormInput = {
-  control: Control
-  name: string
-  label?: string
-  type?: string
 }
 
 export type TypeSelectOptions = {
@@ -21,19 +18,23 @@ export type TypeSelectOptions = {
   value: string
 }
 
-export type TypeFormSelect = {
-  control: Control
-  name: string
+export type TypeFormRender = {
+  control: Control<TypeInvoice>
+  name: keyof TypeInvoice
   label?: string
-  errors: FieldErrors
-  options: TypeSelectOptions[]
+  type?: 'text' | 'currency' | 'date' | 'select'
+  errors?: FieldErrors<TypeInvoice>
+  options?: TypeSelectOptions[]
 }
 
-export type TypeFormRender = {
-  control: Control<InvoiceFormValues>
-  name: string
-  label?: string
-  type: string
-  errors: FieldErrors
+export type TypeFormInvoice = {
+  key: keyof TypeInvoice
+  label: string
+  type?: 'text' | 'currency' | 'date' | 'select'
   options?: TypeSelectOptions[]
+}
+
+export type TypeInvoicesResponse = {
+  message: string
+  data?: TypeListInvoices[]
 }

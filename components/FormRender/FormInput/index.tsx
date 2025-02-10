@@ -1,4 +1,4 @@
-import { TypeFormInput } from '@/lib/types'
+import { TypeFormRender } from '@/lib/types'
 import { TextField } from '@mui/material'
 import { Controller } from 'react-hook-form'
 
@@ -7,7 +7,7 @@ export default function FormInput({
   label,
   control,
   type,
-}: TypeFormInput) {
+}: TypeFormRender) {
   return (
     <Controller
       name={name}

@@ -14,10 +14,13 @@ import {
   TableRow,
 } from '@mui/material'
 
+import { TypeInvoicesResponse, TypeListInvoices } from '@/lib/types'
 import { formatCurrency } from '@/utils'
 
 export default function List() {
-  const { data } = useQueriesMutation({ endpoint: '/invoices' })
+  const { data } = useQueriesMutation<TypeInvoicesResponse>({
+    endpoint: '/invoices',
+  })
 
   return (
     <Container>
@@ -35,7 +38,7 @@ export default function List() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data?.data?.map((row) => (
+                {data?.data?.map((row: TypeListInvoices) => (
                   <TableRow
                     key={row._id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -46,7 +49,7 @@ export default function List() {
                     <TableCell>{row.due_date}</TableCell>
                     <TableCell>{row.status}</TableCell>
                     <TableCell>{formatCurrency(row.amount)}</TableCell>
-                    <TableCell>{row.protein}</TableCell>
+                    <TableCell>-</TableCell>
                   </TableRow>
                 )) || []}
               </TableBody>

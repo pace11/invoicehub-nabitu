@@ -1,8 +1,8 @@
-import { TypeFormInput } from '@/lib/types'
+import { TypeFormRender } from '@/lib/types'
 import { InputAdornment, TextField } from '@mui/material'
 import { Controller } from 'react-hook-form'
 
-export default function FormCurrency({ name, label, control }: TypeFormInput) {
+export default function FormCurrency({ name, label, control }: TypeFormRender) {
   return (
     <Controller
       name={name}

@@ -1,36 +1,33 @@
 import Axios from 'axios'
 import { useCallback, useEffect, useState } from 'react'
 
-export const useQueriesMutation = ({
+export const useQueriesMutation = <T = unknown,>({
   enabled = true,
   endpoint,
 }: {
   enabled?: boolean
   endpoint?: string
 }) => {
-  const [data, setData] = useState<null>(null)
+  const [data, setData] = useState<T | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
-
-  const [dataMutation, setDataMutation] = useState({
-    dataMutation: null,
-    isLoadingMutation: true,
-    errorMutation: null,
-  })
+  const [loadingMutation, setLoadingMutation] = useState<boolean>(false)
+  const [successMutation, setSuccessMutation] = useState<boolean>(false)
+  const [errorMutation, setErrorMutation] = useState<string | null>(null)
 
   const fetchingData = useCallback(
     async ({ params }: { params?: object }) => {
       try {
-        const response = await Axios({
-          method: 'GET',
-          url: `/api/v1${endpoint}`,
-          params,
-        })
+        const response = await Axios.get<T>(`/api/v1${endpoint}`, { params })
 
         setData(response?.data)
       } catch (error) {
         setLoading(false)
-        setError(error)
+        if (error instanceof Error) {
+          setError(error.message)
+        } else {
+          setError('An unknown error occurred')
+        }
       } finally {
         setLoading(false)
       }
@@ -47,6 +44,7 @@ export const useQueriesMutation = ({
     body: object
     method?: string
   }) => {
+    setLoadingMutation(true)
     try {
       const response = await Axios({
         url: `/api/v1/${endpoint}`,
@@ -54,11 +52,21 @@ export const useQueriesMutation = ({
         data: body,
       })
 
-      setData((prevData) => ({ ...prevData }))
+      if (!!response.data.acknowledged) {
+        setLoadingMutation(false)
+        setSuccessMutation(true)
+      }
     } catch (error) {
-      setData((prevData) => ({ ...prevData, isLoading: false, error }))
+      setSuccessMutation(false)
+      if (error instanceof Error) {
+        setErrorMutation(error.message)
+      } else {
+        setErrorMutation('An unknown error occurred')
+      }
     } finally {
-      setData((prevData) => ({ ...prevData, isLoading: false }))
+      setTimeout(() => {
+        setSuccessMutation(false)
+      }, 2000)
     }
   }
 
@@ -68,5 +76,14 @@ export const useQueriesMutation = ({
     }
   }, [enabled, fetchingData])
 
-  return { data, loading, error, refetch, mutate }
+  return {
+    data,
+    loading,
+    error,
+    refetch,
+    mutate,
+    successMutation,
+    loadingMutation,
+    errorMutation,
+  }
 }

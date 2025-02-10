@@ -1,4 +1,5 @@
 import { TypeFormRender } from '@/lib/types'
+import React from 'react'
 import FormCurrency from './FormCurrency'
 import FormDate from './FormDate'
 import FormInput from './FormInput'
@@ -23,27 +24,16 @@ const templates = [
   },
 ]
 
-const FormRender = ({
-  control,
-  name,
-  label,
-  type,
-  errors,
-  options,
-}: TypeFormRender) => {
-  return templates
-    .filter((template) => template.type === type)
-    .map((component, index) => (
-      <component.children
-        key={index}
-        type={type}
-        control={control}
-        name={name}
-        label={label}
-        errors={errors}
-        options={options}
-      />
-    ))
+const FormRender = (props: TypeFormRender) => {
+  const { type } = props
+
+  const component = templates.find(
+    (template) => template.type === type,
+  )?.children
+
+  if (!component) return null
+
+  return React.createElement(component, props)
 }
 
 export default FormRender
