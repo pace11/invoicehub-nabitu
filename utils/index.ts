@@ -14,3 +14,13 @@ export const formatCurrency = (value: string | number) =>
     currency: 'IDR',
     minimumFractionDigits: 0,
   }).format(Number(value))
+
+export const mappingStatus = (value?: 'paid' | 'unpaid' | 'pending') => {
+  const mapping = {
+    paid: 'success',
+    unpaid: 'error',
+    pending: 'warning',
+  } as const
+
+  return value ? mapping[value] : 'default'
+}

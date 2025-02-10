@@ -24,6 +24,25 @@ const theme = createTheme({
         fontSize: '16pt',
       },
     },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          textTransform: 'capitalize',
+        },
+        colorSuccess: {
+          backgroundColor: '#eef6f2',
+          color: '#4a945a',
+        },
+        colorError: {
+          backgroundColor: '#fbf1f1',
+          color: '#c24c56',
+        },
+        colorWarning: {
+          backgroundColor: '#fff8ec',
+          color: '#f3ab3e',
+        },
+      },
+    },
   },
 })
 
